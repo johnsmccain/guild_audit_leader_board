@@ -12,11 +12,10 @@ dotenv.config();
 app.use(express.json())
 app.use(cors())
 
-const MONGODBURI = 'mongodb://127.0.0.1:27017/leader-board'
 // console.log(process.env.MONGODB_URI)
 const connectToMongoDB = async () => {
     try {
-        await mongoose.connect(MONGODBURI)
+        await mongoose.connect(process.env.MONGODB_URI)
         console.log("Connected to mogodb")
     } catch (error) {
         console.log("Can't connect to mogodb")
