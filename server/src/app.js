@@ -17,6 +17,7 @@ app.use(cors())
 const connectToMongoDB = async () => {
     try {
         await mongoose.connect(process.env.MONGODB_URI)
+        console.log("Connected to mogodb")
     } catch (error) {
         console.log("Can't connect to mogodb")
     }
