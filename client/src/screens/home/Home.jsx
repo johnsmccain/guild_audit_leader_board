@@ -1,25 +1,22 @@
 import React, { useEffect, useState } from 'react'
-import data from '../../../data'
 import { Card } from '../../components/card/Card'
-import axios from 'axios'
+import  { getAll } from '../../api'
 export const Home = () => {
   const [grades, setGrades] = useState([])
-  const [students, setStudent] = useState([])
   const fetchData = async () => {
-    const grades = await axios.get('http://localhost:5000/grades');
-    const students = await axios.get('http://localhost:5000/students');
+    const grades = await getAll('grades');
+    const students = await getAll('students');
+
     setGrades(grades.data)
     setGrades(students.data)
   }
   useEffect(() => {
 
 
-    return () => {
       fetchData()
-    }
   }, [])
 
-  console.log(students)
+
   return (
 
     <div className='mx-auto max-w-[700px] bg-black bg-opacity-30 rounded-md grid p-5 h-[90%] overflow-hidden  text-amber-50'>

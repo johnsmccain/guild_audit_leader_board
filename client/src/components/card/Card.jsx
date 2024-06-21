@@ -1,7 +1,26 @@
-import React from 'react'
+import React, { useState, useEffect } from 'react'
 import { Link } from 'react-router-dom'
-
+import { getById } from '../../api';
+import { sumFunc } from '../../../utils.js'
 export const Card = ({data}) => {
+
+  const [grades, setGrades] = useState([])
+
+  const fetchData = async (studentId) => {
+
+    const grades = await getById("grades/students",studentId);
+    setGrades(grades.data)
+
+  }
+
+  useEffect(() => {
+
+    fetchData(data._id)
+
+  }, [])
+  const AVG = grades.length > 0 ? sumFunc(grades)/grades.length : 0;
+
+
   return (
 
     <Link to={`/user/${data._id}`}>
@@ -17,10 +36,10 @@ export const Card = ({data}) => {
           {/* <p className='ml-auto text-centers'>{data.accumilativeGrades}</p> */}
 
         <div className="w-full bg-gray-200 rounded-full dark:bg-gray-700">
-          <div className={`${data.avg > 50 ? "bg-green-400":"bg-red-400"} text-xs font-medium text-gray-900 text-center p-0.5 leading-none rounded-full`}
-          style={{ width: `${data?.avg}%` }}
+          <div className={`${AVG > 50 ? "bg-green-400":"bg-red-400"} text-xs font-medium text-gray-900 text-center p-0.5 leading-none rounded-full`}
+          style={{ width: `${AVG}%` }}
           >
-          {`${data.avg}%`}
+          {`${AVG}%`}
           </div>
         </div>
 

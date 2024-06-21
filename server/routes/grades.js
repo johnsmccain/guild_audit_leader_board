@@ -16,9 +16,14 @@ router.post('/', async (req, res) => {
     const {studentId, assignmentId, score} = req.body;
     try {
          const grade = new Grade({student: studentId, assignment: assignmentId, score });
-        const grades = await Grade.find({student: studentId}).populate("assignment");
-        await User.findByIdAndUpdate(studentId, {avg: sumFunc(grades)/grades.length}, {new:true})
-        await grade.save();
+        const grades = await Grade.find({student: studentId});
+        const DIVIDINE = grades.length > 0? sumFunc(grades)/ grades.length : score;
+// console.log(grade)
+// console.log(grades)
+console.log(sumFunc(grades))
+console.log(DIVIDINE)
+        await User.findByIdAndUpdate(studentId, {$set:{avg: DIVIDINE}}, {new:true})
+        // await grade.save();
         res.status(201).send(grade);
     } catch (error) {
         res.status(400).send(error);
